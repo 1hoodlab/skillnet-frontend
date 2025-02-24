@@ -1,5 +1,5 @@
 // features/auth/sagas/auth.saga.ts
-import { call, put, takeLatest } from "redux-saga/effects";
+import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
 import {
   loginRequest,
   loginSuccess,
@@ -22,9 +22,8 @@ function* handleLogin(
   action: PayloadAction<{ email: string; password: string }>
 ): SagaGenerator<User> {
   try {
-    // Call the mock API service
     const user = yield call(mockAuthService.login, action.payload);
-    // Dispatch success action with the user data
+
     yield put(loginSuccess(user));
   } catch (error: any) {
     // Dispatch failure action with error message
@@ -70,7 +69,7 @@ function* handleCheckAuthStatus(): SagaGenerator<User | null> {
 
 // Watcher Saga
 export function* authSagas(): SagaGenerator {
-  yield takeLatest(loginRequest.type, handleLogin);
+  yield takeEvery(loginRequest.type, handleLogin);
   yield takeLatest(logout.type, handleLogout);
   yield takeLatest(registerRequest.type, handleRegister);
   yield takeLatest(checkAuthStatus.type, handleCheckAuthStatus);
