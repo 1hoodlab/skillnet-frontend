@@ -5,6 +5,7 @@ import authReducer from "../../features/auth/model/slice";
 
 export const rootReducer = combineReducers({
   auth: authReducer,
+  // Add other feature reducers
 });
 
 // shared/store/root-saga.ts
